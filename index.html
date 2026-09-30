@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feliz Día - Racing Toy Cars</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#05081c;display:grid;place-items:center;overflow:hidden;font-family:'Bangers',Impact,sans-serif}
+.wrap{position:relative}
+.escena{position:absolute;top:0;left:0;width:900px;height:550px;transform-origin:0 0;overflow:hidden;border-radius:22px;
+  background:radial-gradient(circle at 50% 55%,#2b6bff 0%,#1038b8 45%,#081a5c 100%);
+  box-shadow:0 25px 60px rgba(0,0,0,.7),inset 0 0 90px rgba(0,0,0,.4)}
+
+/* rayos giratorios */
+.rayos{position:absolute;width:1800px;height:1800px;left:-450px;top:-750px;
+  background:repeating-conic-gradient(rgba(255,255,255,.09) 0 9deg,transparent 9deg 18deg);animation:rota 50s linear infinite}
+@keyframes rota{to{transform:rotate(360deg)}}
+
+.vel{position:absolute;height:5px;border-radius:5px;background:rgba(255,255,255,.65);animation:vel 1s linear infinite}
+.v1{width:130px;top:190px}.v2{width:80px;top:222px;animation-delay:-.4s}
+.v3{width:170px;top:312px;animation-delay:-.2s}.v4{width:100px;top:342px;animation-delay:-.7s}
+@keyframes vel{from{transform:translateX(-220px)}to{transform:translateX(1100px)}}
+
+.bandera{position:absolute;top:22px;width:130px;height:68px;border:4px solid #fff;border-radius:4px;
+  background:conic-gradient(#111 25%,#fff 0 50%,#111 0 75%,#fff 0) 0 0/26px 26px;
+  box-shadow:0 8px 15px rgba(0,0,0,.5);animation:ondea 1.6s ease-in-out infinite alternate}
+.bandera.izq{left:18px;--r:-12deg}
+.bandera.der{right:18px;--r:12deg;animation-delay:-.8s}
+@keyframes ondea{from{transform:rotate(var(--r)) skewY(-3deg)}to{transform:rotate(var(--r)) skewY(3deg)}}
+
+/* título */
+.feliz{position:absolute;top:92px;left:0;right:0;text-align:center;z-index:50;animation:flota 2.4s ease-in-out infinite 1s}
+.feliz span{display:inline-block;font-size:108px;letter-spacing:3px;line-height:1;color:#ffd21a;white-space:nowrap;
+  -webkit-text-stroke:9px #0a1030;paint-order:stroke fill;
+  text-shadow:0 8px 0 #0a1030,7px 9px 0 #ff5a00,12px 14px 0 #e80000;
+  transform:rotate(-3deg);animation:entra .9s cubic-bezier(.2,1.5,.5,1) both}
+@keyframes entra{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(-3deg)}}
+@keyframes flota{50%{transform:translateY(-7px)}}
+.estrella{position:absolute;color:#ffe900;font-size:38px;z-index:51;animation:brillo .7s ease-in-out infinite alternate}
+.e1{top:110px;left:110px}.e2{top:100px;right:110px;animation-delay:-.3s}
+.e3{top:240px;left:50px;animation-delay:-.5s}.e4{top:245px;right:50px;animation-delay:-.2s}
+@keyframes brillo{from{transform:scale(.7) rotate(0);opacity:.5}to{transform:scale(1.2) rotate(25deg);opacity:1}}
+
+/* pista naranja */
+.pista{position:absolute;left:0;right:0;bottom:0;height:175px;z-index:5;
+  background:linear-gradient(180deg,#ffa01f 0%,#ff7a00 35%,#e85a00 100%);border-top:10px solid #ffd21a;
+  box-shadow:0 -8px 0 #0a1030}
+.pista::before{content:"";position:absolute;left:0;right:0;top:32px;height:8px;
+  background:repeating-linear-gradient(90deg,#ffe35a 0 50px,transparent 50px 100px);animation:calle .5s linear infinite}
+.pista::after{content:"";position:absolute;left:0;right:0;top:0;height:14px;
+  background:repeating-linear-gradient(90deg,rgba(150,40,0,.55) 0 8px,transparent 8px 22px);animation:calle .5s linear infinite}
+@keyframes calle{to{background-position:100px 0}}
+
+/* llamas inferiores */
+.fuegos{position:absolute;left:0;right:0;bottom:0;height:64px;z-index:8}
+.fl{position:absolute;bottom:0;width:66px;height:64px;transform-origin:50% 100%;
+  background:linear-gradient(0deg,#ffe35a,#ff7a00 55%,#e80000);
+  clip-path:polygon(50% 0,68% 34%,100% 18%,90% 100%,10% 100%,0 18%,32% 34%);animation:flick .35s ease-in-out infinite alternate}
+@keyframes flick{from{transform:scaleY(.65) scaleX(.95)}to{transform:scaleY(1.15) scaleX(1.05)}}
+
+/* vehículos */
+.auto{position:absolute;z-index:10;animation:deriva 3.2s ease-in-out infinite}
+.auto svg{display:block;width:100%;height:100%;overflow:visible}
+.car svg{animation:bota .35s ease-in-out infinite alternate}
+.rojo{left:40px;bottom:24px;width:250px;height:104px;z-index:30}
+.azul{left:120px;bottom:92px;width:190px;height:79px;animation-duration:2.4s;animation-delay:-1s}
+.verde{left:520px;bottom:92px;width:190px;height:79px;animation-duration:2.8s;animation-delay:-.4s}
+.azul svg{animation-duration:.3s}.verde svg{animation-duration:.27s}
+.moto{left:620px;bottom:22px;width:215px;height:127px;z-index:31;animation-duration:3.6s;animation-delay:-2s}
+.moto svg{transform-origin:22% 77%;animation:caballito 3.6s ease-in-out infinite;animation-delay:-2s}
+.moto::after{content:"";position:absolute;left:6%;right:4%;bottom:-2px;height:9px;border-radius:50%;background:rgba(0,0,0,.4);filter:blur(4px)}
+@keyframes deriva{0%,100%{transform:translateX(-14px)}50%{transform:translateX(14px)}}
+@keyframes bota{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+@keyframes caballito{0%,25%,100%{transform:rotate(0)}40%,60%{transform:rotate(-17deg)}}
+.rueda{transform-box:fill-box;transform-origin:center;animation:gira .35s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.llama{transform-box:fill-box;transform-origin:100% 50%;animation:fuego .12s ease-in-out infinite alternate}
+@keyframes fuego{from{transform:scaleX(.7) scaleY(.9)}to{transform:scaleX(1.25) scaleY(1.1)}}
+.humo{position:absolute;left:-10px;width:16px;height:16px;border-radius:50%;background:#eee;opacity:0;animation:humo 1s ease-out infinite}
+.h1{bottom:34px}.h2{bottom:42px;animation-delay:.33s}.h3{bottom:28px;animation-delay:.66s}
+@keyframes humo{from{transform:scale(.5);opacity:.6}to{transform:translate(-70px,-30px) scale(2);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:0s!important;animation-iteration-count:1!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+<div class="escena" id="escena">
+  <div class="rayos"></div>
+  <div class="vel v1"></div><div class="vel v2"></div><div class="vel v3"></div><div class="vel v4"></div>
+  <div class="bandera izq"></div><div class="bandera der"></div>
+  <div class="feliz"><span>¡Feliz Día!</span></div>
+  <div class="estrella e1">✦</div><div class="estrella e2">✦</div>
+  <div class="estrella e3">★</div><div class="estrella e4">★</div>
+  <div class="pista"></div>
+  <div class="fuegos" id="fuegos"></div>
+  <div class="auto car azul" data-c="#1f7bff,#0a3ea8"></div>
+  <div class="auto car verde" data-c="#2fd35a,#0c7a2c"></div>
+  <div class="auto car rojo" data-c="#ff4a30,#a80000"><div class="humo h1"></div><div class="humo h2"></div><div class="humo h3"></div></div>
+  <div class="auto moto" id="moto"></div>
+</div>
+</div>
+
+<script>
+const rueda=(x,y,r)=>`<g transform="translate(${x} ${y})"><g class="rueda">
+  <circle r="${r}" fill="#111" stroke="#000" stroke-width="3"/>
+  <circle r="${r*.62}" fill="#c8c8c8"/><circle r="${r*.62}" fill="none" stroke="#666" stroke-width="2"/>
+  <path d="M${-r*.62} 0H${r*.62}M0 ${-r*.62}V${r*.62}M${-r*.44} ${-r*.44}L${r*.44} ${r*.44}M${-r*.44} ${r*.44}L${r*.44} ${-r*.44}" stroke="#555" stroke-width="3"/>
+  <circle r="4" fill="#fff"/></g></g>`;
+
+function carSVG(a,b,id){
+  return `<svg viewBox="0 0 250 104" aria-hidden="true">
+  <defs><linearGradient id="g${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>
+  <ellipse cx="125" cy="101" rx="110" ry="5" fill="#000" opacity=".4"/>
+  <polygon class="llama" points="14,58 -44,44 -22,58 -52,68 -20,68 -40,86 14,72" fill="#ffb000" stroke="#ff4b00" stroke-width="3"/>
+  <rect x="6" y="34" width="36" height="6" rx="2" fill="#111"/><rect x="12" y="40" width="6" height="20" fill="#111"/><rect x="30" y="40" width="6" height="20" fill="#111"/>
+  <path d="M10 64Q10 52 28 50L72 48Q92 22 120 22H158Q176 24 188 44L226 50Q244 54 244 66V80H10Z" fill="url(#g${id})" stroke="#120000" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M90 46Q100 30 120 30H156Q166 32 174 46Z" fill="#9fe6ff" stroke="#120000" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M136 30V46" stroke="#120000" stroke-width="4"/><path d="M104 40L116 33" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  <rect x="12" y="60" width="230" height="6" fill="#ffd21a"/>
+  <path d="M60 52L76 52L70 64L54 64Z" fill="#fff" opacity=".9"/>
+  <ellipse cx="236" cy="62" rx="7" ry="5" fill="#ffee55" stroke="#111" stroke-width="2.5"/>
+  <rect x="230" y="72" width="16" height="8" rx="3" fill="#222"/>
+  <path d="M38 80a21 21 0 0 1 42 0Z" fill="#0a0a0a"/><path d="M166 80a21 21 0 0 1 42 0Z" fill="#0a0a0a"/>
+  ${rueda(59,78,21)}${rueda(187,78,21)}</svg>`;
+}
+
+function motoSVG(){
+  return `<svg viewBox="0 0 220 130" aria-hidden="true">
+  <polygon class="llama" points="26,88 -14,80 2,90 -18,96 8,96 -6,106 26,98" fill="#ffb000" stroke="#ff4b00" stroke-width="2.5"/>
+  <!-- escape -->
+  <path d="M96 100L52 94L24 88" stroke="#111" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <path d="M96 100L52 94L24 88" stroke="#9aa" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- chasis y brazo -->
+  <path d="M48 100L92 84L126 84" stroke="#151515" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <!-- motor -->
+  <path d="M84 70H132L138 100H92Z" fill="#3a3f4a" stroke="#0a0a0a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M94 76H126M96 84H130M98 92H134" stroke="#8a93a3" stroke-width="3"/>
+  <!-- cola y asiento -->
+  <path d="M26 54L78 58L82 70L42 70Q30 66 26 54Z" fill="#0f2c8f" stroke="#0a0a0a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M38 60L78 62L80 68L46 68Z" fill="#111"/>
+  <!-- tanque -->
+  <path d="M74 58Q96 34 128 44L146 56L112 70L76 70Z" fill="#1d4fe0" stroke="#0a0a0a" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M92 52Q110 44 126 50" stroke="#fff" stroke-width="3" fill="none" opacity=".6" stroke-linecap="round"/>
+  <text x="96" y="64" font-family="Bangers,Impact,sans-serif" font-size="11" fill="#fff" letter-spacing="1">MT-09</text>
+  <!-- horquilla, manubrio -->
+  <path d="M176 100L148 50" stroke="#b9c0cc" stroke-width="7" stroke-linecap="round"/>
+  <path d="M176 100L148 50" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M146 48L132 40" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+  <!-- faro angular -->
+  <path d="M148 40L170 46L168 62L152 60Z" fill="#fff6a8" stroke="#0a0a0a" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M154 46L164 49" stroke="#ffb000" stroke-width="3" stroke-linecap="round"/>
+  <!-- guardabarro -->
+  <path d="M152 80Q176 66 200 82" stroke="#1d4fe0" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <!-- piloto -->
+  <path d="M76 58L108 30" stroke="#1a1a24" stroke-width="15" stroke-linecap="round"/>
+  <path d="M108 32L134 42" stroke="#1a1a24" stroke-width="7" stroke-linecap="round"/>
+  <path d="M80 60L108 82L102 98" stroke="#222a44" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="118" cy="20" r="12" fill="#ffd21a" stroke="#0a0a0a" stroke-width="3.5"/>
+  <path d="M120 16H132V24H120Z" fill="#6fd8ff" stroke="#0a0a0a" stroke-width="2.5"/>
+  ${rueda(48,100,26)}${rueda(176,100,26)}</svg>`;
+}
+
+document.querySelectorAll('.car').forEach((el,i)=>{
+  const [a,b]=el.dataset.c.split(',');
+  el.insertAdjacentHTML('afterbegin',carSVG(a,b,i));
+});
+document.getElementById('moto').insertAdjacentHTML('afterbegin',motoSVG());
+
+const f=document.getElementById('fuegos');
+for(let i=0;i<15;i++){
+  const d=document.createElement('div');d.className='fl';
+  d.style.left=(i*62-8)+'px';d.style.animationDelay=(-Math.random()*.4)+'s';
+  d.style.animationDuration=(.28+Math.random()*.2)+'s';f.appendChild(d);
+}
+
+const wrap=document.getElementById('wrap'),esc=document.getElementById('escena');
+function ajusta(){
+  const s=Math.min(innerWidth/900,innerHeight/550)*.96;
+  esc.style.transform=`scale(${s})`;
+  wrap.style.width=900*s+'px';wrap.style.height=550*s+'px';
+}
+addEventListener('resize',ajusta);ajusta();
+</script>
+</body>
+</html>
